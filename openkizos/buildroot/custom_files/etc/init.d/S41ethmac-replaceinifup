@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# Sets the MAC address for eth.
+#
+
+start() {
+	source /etc/ethmac
+	ip link set $iface down
+	ip link set addr $ethmac dev $iface
+	ip link set $iface up
+	udhcpc
+}
+
+stop() {
+	echo "Can't stop"
+}
+
+restart() {
+	stop
+	start
+}
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  restart|reload)
+  	restart
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
+

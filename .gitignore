@@ -1,0 +1,4 @@
+build/[a-zA-Z]*
+buildroot/
+!openkizos/buildroot/
+!build/.gitkeep

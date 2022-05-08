@@ -1,0 +1,49 @@
+#!/bin/sh
+#
+# Enables the right GPIO to enable the USB-A port.
+#
+
+PIN=131 # 131 is PE3's pin number
+NAME=pioE3 # pioE3 is PE3 full name
+
+start() {
+	# If the pioE3 GPIO is not already exported
+	if ! test -d /sys/class/gpio/$NAME ; then
+	    echo $PIN > /sys/class/gpio/export
+	fi
+	# Set the pin as output and set the value
+	echo out > /sys/class/gpio/$NAME/direction
+	echo 1 > /sys/class/gpio/$NAME/value
+}
+
+stop() {
+	if test -d /sys/class/gpio/$NAME ; then
+		if test "$(cat /sys/class/gpio/$NAME/direction)" = out ; then
+		        echo 0 > /sys/class/gpio/$NAME/value
+		fi
+		echo $PIN > /sys/class/gpio/unexport
+    	fi
+}
+
+restart() {
+	stop
+	start
+}
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  restart|reload)
+  	restart
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
+

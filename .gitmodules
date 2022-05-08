@@ -1,0 +1,9 @@
+[submodule "at91bootstrap"]
+	path = at91bootstrap
+	url = https://github.com/linux4sam/at91bootstrap
+[submodule "u-boot-at91"]
+	path = u-boot-at91
+	url = https://github.com/linux4sam/u-boot-at91
+[submodule "linux"]
+	path = linux
+	url = https://github.com/torvalds/linux
